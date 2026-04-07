@@ -22,6 +22,7 @@ async function bootstrap() {
     swagger_1.SwaggerModule.setup('api-docs', app, document);
     const port = process.env.PORT || 3000;
     await app.listen(port);
+    console.log(`Application running on port ${port}`);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

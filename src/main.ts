@@ -27,5 +27,6 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000; // ← ubah ini
   await app.listen(port);
+  console.log(`Application running on port ${port}`);
 }
 bootstrap();
