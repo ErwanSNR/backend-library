@@ -15,17 +15,17 @@ async function bootstrap() {
     }),
   );
 
-  // Swagger setup
   const config = new DocumentBuilder()
     .setTitle('Library API')
     .setDescription('API untuk sistem perpustakaan SMK')
     .setVersion('1.0')
-    .addBearerAuth() // ← untuk input JWT token di Swagger UI
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document); // ← akses di /api-docs
+  SwaggerModule.setup('api-docs', app, document);
 
-  await app.listen(process.env.PORT ?? 3000);
+  const port = process.env.PORT || 3000; // ← ubah ini
+  await app.listen(port);
 }
 bootstrap();
