@@ -22,14 +22,16 @@ let BooksService = class BooksService {
     }
     async findAll(title) {
         return this.prisma.book.findMany({
-            where: title ? { title: { contains: title } } : undefined,
+            where: title
+                ? { title: { contains: title } }
+                : undefined,
             orderBy: { id: 'asc' },
         });
     }
     async findOne(id) {
         const book = await this.prisma.book.findUnique({ where: { id } });
         if (!book)
-            throw new common_1.NotFoundException('Book not found');
+            throw new common_1.NotFoundException(`Book with id ${id} not found`);
         return book;
     }
     async update(id, dto) {
@@ -39,7 +41,7 @@ let BooksService = class BooksService {
     async remove(id) {
         await this.findOne(id);
         await this.prisma.book.delete({ where: { id } });
-        return { message: `Book with id ${id} deleted` };
+        return { message: `Book with id ${id} successfully deleted` };
     }
 };
 exports.BooksService = BooksService;

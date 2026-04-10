@@ -47,6 +47,7 @@ exports.BookController = BookController;
 __decorate([
     (0, common_1.Post)(),
     (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN, client_1.UserRole.PETUGAS),
+    (0, swagger_1.ApiOperation)({ summary: 'Tambah buku baru' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_book_dto_1.CreateBookDto]),
@@ -55,6 +56,8 @@ __decorate([
 __decorate([
     (0, common_1.Get)(),
     (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN, client_1.UserRole.PETUGAS, client_1.UserRole.MEMBER),
+    (0, swagger_1.ApiOperation)({ summary: 'Ambil semua buku' }),
+    (0, swagger_1.ApiQuery)({ name: 'title', required: false }),
     __param(0, (0, common_1.Query)('title')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -63,6 +66,7 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN, client_1.UserRole.PETUGAS, client_1.UserRole.MEMBER),
+    (0, swagger_1.ApiOperation)({ summary: 'Ambil buku by ID' }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -71,6 +75,7 @@ __decorate([
 __decorate([
     (0, common_1.Patch)(':id'),
     (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN, client_1.UserRole.PETUGAS),
+    (0, swagger_1.ApiOperation)({ summary: 'Update buku' }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -80,6 +85,7 @@ __decorate([
 __decorate([
     (0, common_1.Delete)(':id'),
     (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN),
+    (0, swagger_1.ApiOperation)({ summary: 'Hapus buku' }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -88,8 +94,6 @@ __decorate([
 exports.BookController = BookController = __decorate([
     (0, swagger_1.ApiTags)('books'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.Controller)('books'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('books'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     __metadata("design:paramtypes", [book_service_1.BooksService])
