@@ -4,6 +4,25 @@ export declare class PeminjamanController {
     private readonly service;
     constructor(service: PeminjamanService);
     create(dto: CreatePeminjamanDto): Promise<{
+        student: {
+            id: number;
+            nis: string;
+            name: string;
+            email: string | null;
+            kelas: string;
+            jurusan: string;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+        book: {
+            id: number;
+            title: string;
+            author: string;
+            year: number;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
         id: number;
         studentId: number;
         bookId: number;
@@ -36,7 +55,7 @@ export declare class PeminjamanController {
         borrowedAt: Date;
         returnedAt: Date | null;
     })[]>;
-    findOne(id: number): Promise<({
+    findOne(id: number): Promise<{
         student: {
             id: number;
             nis: string;
@@ -61,8 +80,27 @@ export declare class PeminjamanController {
         bookId: number;
         borrowedAt: Date;
         returnedAt: Date | null;
-    }) | null>;
-    return(id: number): Promise<{
+    }>;
+    returnBook(id: number): Promise<{
+        student: {
+            id: number;
+            nis: string;
+            name: string;
+            email: string | null;
+            kelas: string;
+            jurusan: string;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+        book: {
+            id: number;
+            title: string;
+            author: string;
+            year: number;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+    } & {
         id: number;
         studentId: number;
         bookId: number;

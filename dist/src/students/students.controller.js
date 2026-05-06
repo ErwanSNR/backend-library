@@ -46,7 +46,7 @@ let StudentsController = class StudentsController {
 exports.StudentsController = StudentsController;
 __decorate([
     (0, common_1.Post)(),
-    (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN, client_1.UserRole.PETUGAS),
+    (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_student_dto_1.CreateStudentDto]),

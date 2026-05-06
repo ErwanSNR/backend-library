@@ -12,30 +12,40 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PeminjamanService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../prisma/prisma.service");
-const common_2 = require("@nestjs/common");
 let PeminjamanService = class PeminjamanService {
     prisma;
     constructor(prisma) {
         this.prisma = prisma;
     }
     async create(dto) {
+        const student = await this.prisma.student.findUnique({
+            where: { id: dto.studentId },
+        });
+        if (!student)
+            throw new common_1.NotFoundException(`Student dengan id ${dto.studentId} tidak ditemukan`);
+        const book = await this.prisma.book.findUnique({
+            where: { id: dto.bookId },
+        });
+        if (!book)
+            throw new common_1.NotFoundException(`Buku dengan id ${dto.bookId} tidak ditemukan`);
         const existingLoan = await this.prisma.peminjaman.findFirst({
-            where: {
-                bookId: dto.bookId,
-                returnedAt: null,
-            },
+            where: { bookId: dto.bookId, returnedAt: null },
         });
         if (existingLoan) {
-            throw new common_2.BadRequestException('Buku sedang dipinjam dan belum dikembalikan');
+            throw new common_1.BadRequestException('Buku sedang dipinjam dan belum dikembalikan');
         }
         return this.prisma.peminjaman.create({
             data: {
                 studentId: dto.studentId,
                 bookId: dto.bookId,
             },
+            include: { student: true, book: true },
         });
     }
     async findAll(date) {
+        if (date && isNaN(Date.parse(date))) {
+            throw new common_1.BadRequestException('Format tanggal tidak valid, gunakan YYYY-MM-DD');
+        }
         return this.prisma.peminjaman.findMany({
             where: date
                 ? {
@@ -45,26 +55,28 @@ let PeminjamanService = class PeminjamanService {
                     },
                 }
                 : undefined,
-            include: {
-                student: true,
-                book: true,
-            },
+            include: { student: true, book: true },
             orderBy: { id: 'desc' },
         });
     }
     async findOne(id) {
-        return this.prisma.peminjaman.findUnique({
+        const peminjaman = await this.prisma.peminjaman.findUnique({
             where: { id },
-            include: {
-                student: true,
-                book: true,
-            },
+            include: { student: true, book: true },
         });
+        if (!peminjaman)
+            throw new common_1.NotFoundException(`Peminjaman dengan id ${id} tidak ditemukan`);
+        return peminjaman;
     }
     async returnBook(id) {
+        const peminjaman = await this.findOne(id);
+        if (peminjaman.returnedAt) {
+            throw new common_1.BadRequestException('Buku sudah dikembalikan sebelumnya');
+        }
         return this.prisma.peminjaman.update({
             where: { id },
             data: { returnedAt: new Date() },
+            include: { student: true, book: true },
         });
     }
 };

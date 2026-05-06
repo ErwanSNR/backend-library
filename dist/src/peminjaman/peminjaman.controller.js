@@ -35,7 +35,7 @@ let PeminjamanController = class PeminjamanController {
     findOne(id) {
         return this.service.findOne(id);
     }
-    return(id) {
+    returnBook(id) {
         return this.service.returnBook(id);
     }
 };
@@ -43,6 +43,7 @@ exports.PeminjamanController = PeminjamanController;
 __decorate([
     (0, common_1.Post)(),
     (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN, client_1.UserRole.PETUGAS),
+    (0, swagger_1.ApiOperation)({ summary: 'Buat peminjaman baru' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_peminjaman_dto_1.CreatePeminjamanDto]),
@@ -51,6 +52,8 @@ __decorate([
 __decorate([
     (0, common_1.Get)(),
     (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN, client_1.UserRole.PETUGAS),
+    (0, swagger_1.ApiOperation)({ summary: 'Ambil semua peminjaman' }),
+    (0, swagger_1.ApiQuery)({ name: 'date', required: false, description: 'Filter by date (YYYY-MM-DD)' }),
     __param(0, (0, common_1.Query)('date')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -59,6 +62,7 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN, client_1.UserRole.PETUGAS),
+    (0, swagger_1.ApiOperation)({ summary: 'Ambil peminjaman by ID' }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -67,16 +71,15 @@ __decorate([
 __decorate([
     (0, common_1.Patch)(':id/return'),
     (0, roles_decorator_1.Roles)(client_1.UserRole.ADMIN, client_1.UserRole.PETUGAS),
+    (0, swagger_1.ApiOperation)({ summary: 'Kembalikan buku' }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
-], PeminjamanController.prototype, "return", null);
+], PeminjamanController.prototype, "returnBook", null);
 exports.PeminjamanController = PeminjamanController = __decorate([
     (0, swagger_1.ApiTags)('peminjaman'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.Controller)('peminjaman'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, common_1.Controller)('peminjaman'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     __metadata("design:paramtypes", [peminjaman_service_1.PeminjamanService])

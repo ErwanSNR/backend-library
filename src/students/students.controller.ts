@@ -18,7 +18,7 @@ export class StudentsController {
   constructor(private readonly studentsService: StudentsService) { }
 
   @Post()
-  @Roles(UserRole.ADMIN, UserRole.PETUGAS)
+  @Roles(UserRole.ADMIN)
   create(@Body() dto: CreateStudentDto) {
     return this.studentsService.create(dto);
   }
